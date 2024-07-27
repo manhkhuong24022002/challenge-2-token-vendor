@@ -17,16 +17,16 @@ contract Vendor is Ownable {
 
   // ToDo: create a payable buyTokens() function:
   function buyTokens() public payable {
-      require(msg.value > 0, "Necesitas enviar algo de ether");
+      require(msg.value > 0, "You need to send some ether");
       uint256 amount = msg.value;
       
       uint256 tokens = amount * tokensPerEth;
       
       uint256 tokenBalance = yourToken.balanceOf(address(this));
-      require (tokenBalance >= tokens, "No hay suficientes tokens en reserva");
+      require (tokenBalance >= tokens, "There are not enough tokens in reserve");
     
       (bool sent) =yourToken.transfer(msg.sender, tokens);
-      require(sent, "Transferencia fallida"); 
+      require(sent, "Transfer failed"); 
 
       emit BuyTokens(msg.sender, amount, tokens);
     }
@@ -34,7 +34,7 @@ contract Vendor is Ownable {
   // ToDo: create a withdraw() function that lets the owner withdraw ETH
    function withdraw() public onlyOwner{
         uint256 balance = address(this).balance;
-        require(balance > 0, "Sin balance para retiro");
+        require(balance > 0, "No balance for withdrawal");
         payable(owner()).transfer(balance);
     }
 
